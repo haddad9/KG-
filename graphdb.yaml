@@ -1,0 +1,121 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    cni.projectcalico.org/containerID: e3acc61beea113cfc02dd140daace18f10b5dc95170970f9c3a273a92f575a53
+    cni.projectcalico.org/podIP: 10.233.88.231/32
+    cni.projectcalico.org/podIPs: 10.233.88.231/32
+    kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, memory request for container
+      graphdb; cpu, memory limit for container graphdb'
+  creationTimestamp: "2024-05-10T15:05:12Z"
+  labels:
+    run: graphdb
+  name: graphdb
+  namespace: mhaddad
+  resourceVersion: "37488623"
+  uid: 277c9623-35dd-4706-bc81-a2747d81d274
+spec:
+  containers:
+  - args:
+    - sh
+    image: ontotext/graphdb:10.6.3
+    imagePullPolicy: IfNotPresent
+    name: graphdb
+    resources:
+      limits:
+        cpu: "16"
+        memory: 32Gi
+      requests:
+        cpu: 500m
+        memory: 16Gi
+    stdin: true
+    stdinOnce: true
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    tty: true
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-w8wxq
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: dgx-a100
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-w8wxq
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2024-05-10T15:05:45Z"
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2024-05-10T15:05:12Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2024-05-10T15:05:45Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2024-05-10T15:05:45Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2024-05-10T15:05:12Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://1a60dc7f7f951825ac7a723a4a62bfbd4fba9cbb8ad338d6cef01c04c1436d10
+    image: docker.io/ontotext/graphdb:10.6.3
+    imageID: docker.io/ontotext/graphdb@sha256:aabf1283664b1cbeeb9880025bbea6820c4a7f5a3a54e5940534e916b8829035
+    lastState: {}
+    name: graphdb
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2024-05-10T15:05:44Z"
+  hostIP: 10.119.105.200
+  hostIPs:
+  - ip: 10.119.105.200
+  phase: Running
+  podIP: 10.233.88.231
+  podIPs:
+  - ip: 10.233.88.231
+  qosClass: Burstable
+  startTime: "2024-05-10T15:05:12Z"
